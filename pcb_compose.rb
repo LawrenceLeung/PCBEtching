@@ -9,9 +9,10 @@ DPI=1200
 SEPARATION=1.0
 SEPARATION_PX=(SEPARATION*DPI).to_i
 
+FILENAME="etchtest"
 
-top= Magick::ImageList.new("etchtest.GTL.eps") { self.density=DPI }
-bottom= Magick::ImageList.new("etchtest.GBL.eps") { self.density=DPI }
+top= Magick::ImageList.new(FILENAME+".GTL.eps") { self.density=DPI }
+bottom= Magick::ImageList.new(FILENAME+".GBL.eps") { self.density=DPI }
 
 out=Magick::Image.new(top.columns,top.rows*2+SEPARATION_PX)
 
