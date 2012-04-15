@@ -1,0 +1,4 @@
+PCB Etching tools
+
+pcb_compose.rb - combines top and bottom layers onto one page for printing.
+etchtest.sch/brd - a 2x2" etch test board
