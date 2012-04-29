@@ -1,4 +1,4 @@
-# compose PCB images to a foldable paper
+# compose Top/Bottom of PCB images to a single paper for faster processing
 
 require 'rubygems'
 require 'RMagick'
@@ -11,12 +11,19 @@ SEPARATION_PX=(SEPARATION*DPI).to_i
 
 FILENAME="etchtest"
 
-top= Magick::ImageList.new(FILENAME+".GTL.eps") { self.density=DPI }
-bottom= Magick::ImageList.new(FILENAME+".GBL.eps") { self.density=DPI }
+LAYER_PAIRS={ :signal => {:top=>"GTL", :bottom=>"GBL"},
+    :mask => {:top=>"GTS", :bottom=>"GBS"} 
+ }
 
-out=Magick::Image.new(top.columns,top.rows*2+SEPARATION_PX)
+LAYER_PAIRS.each_pair { |layer, layer_data | 
+    puts "Processing #{layer}"
+    top= Magick::ImageList.new("#{FILENAME}.#{layer_data[:top]}.eps") { self.density=DPI }
+    bottom= Magick::ImageList.new("#{FILENAME}.#{layer_data[:bottom]}.eps") { self.density=DPI }
 
-out.composite!(top,0,0,Magick::OverCompositeOp)
-out.composite!(bottom.flip,0,top.rows+SEPARATION_PX,Magick::OverCompositeOp)
+    out=Magick::Image.new(top.columns,top.rows*2+SEPARATION_PX)
 
-out.write("out.png")
+    out.composite!(top,0,0,Magick::OverCompositeOp)
+    out.composite!(bottom.flip,0,top.rows+SEPARATION_PX,Magick::OverCompositeOp)
+
+    out.write("#{layer}.png")
+}
