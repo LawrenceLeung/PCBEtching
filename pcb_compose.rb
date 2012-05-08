@@ -85,10 +85,10 @@ LAYER_PAIRS.each_pair { |layer, layer_data |
     if (layer_data[:alignment_marks])
         d = Magick::Draw.new
 
-        # Place marks at approx x= left-AD, 1/4, 3/4, right+AD
+        # Place marks at approx x= left-AD, 1/5, 3/4, right+AD  (intentionally skewed to prevent 180' mistakes)
         # and y= AD, top+AD, bottom-AD, bottom+AD
         alignment_x_positions=[ADDITIONAL_BORDER_PX-ALIGNMENT_DISTANCE_PX,
-                        ADDITIONAL_BORDER_PX+top.columns/4,
+                        ADDITIONAL_BORDER_PX+top.columns/5,
                         ADDITIONAL_BORDER_PX+((top.columns*3)/4),
                         top.columns+ALIGNMENT_DISTANCE_PX]
         alignment_y_positions=[ADDITIONAL_BORDER_PX-ALIGNMENT_DISTANCE_PX, ADDITIONAL_BORDER_PX+top.rows+ALIGNMENT_DISTANCE_PX,
